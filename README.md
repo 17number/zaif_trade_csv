@@ -18,7 +18,7 @@ zaif の取引履歴CSVを取得するためのツールです。API を使っ�
 
 ## 寄付/投げ銭 大歓迎
 
-このツールのおかげで助かりました、~~彼女ができました、~~という方は[@stray_engineer](https://twitter.com/stray_engineer)にチップ投げてくれたり、
+このツールのおかげで助かりました、 ~~彼女ができました、~~ という方は[@stray_engineer](https://twitter.com/stray_engineer)にチップ投げてくれたり、
 以下のアドレスに寄付してくれたりすると大変喜びます。
 
 - BTC : 12Mg188NpkhtborkmW4gN36dxTTsdyvgSQ
@@ -52,12 +52,15 @@ zaif の取引履歴CSVを取得するためのツールです。API を使っ�
 Rubyで使う便利ツールです。気にしたら負けです。目的は CSV を作ることなんです。
 
 1. コマンドプロンプトを起動
-[Windows]キー と [r]キー を同時押しして、出てきたウィンドウに cmd って打ってください。
+[Windows]キー と [r]キー を同時押しして、出てきたウィンドウに `cmd` って打ってください。
 
 ※Win8 以降でショートカットキーが変わってたらすみません。ググってください
 
 2. インストール
+
+```
 gem install bundler
+```
 
 って打って Enter を押してください。あとは放っておけばインストールが完了するはずです。
 
@@ -76,7 +79,7 @@ gem install bundler
 
 #### コマンドプロンプトで移動
 
-展開したフォルダに移動します。C:¥zaif_trade_csv-master に展開した場合は、
+展開したフォルダに移動します。 `C:¥zaif_trade_csv-master` に展開した場合は、
 
 ```
 cd C:¥zaif_trade_csv-master
@@ -112,15 +115,15 @@ bundle install --path vendor¥bundle
 
 ![API 2FA](images/create_api_2fa.png)
 
-二段階認証パス後、現れる Create Key を入力して Create。名前は何でも良いです。必要な権限は Info のみ。
+二段階認証パス後、現れる Create Key を入力して Create。名前は何でも良いです。必要な権限は Info のみ。(勝手に取引されたり、出金されたりする恐れはないから安心ですね！)
 
 ![API Create](images/create_api.png)
 
-作成後、表示される Key/Secret を後ほど設定ファイルに書き込みます。
+作成後、表示される Key/Secret をこのあと設定ファイルにコピーします。
 
 ![API Key/Secret](images/copy_api_key_secret.png)
 
-取引履歴や通貨ペアが多い方は、同じ手順を繰り返して複数の Key/Secret を作ることをオススメします。
+取引履歴や通貨ペアが多い方は、同じ手順を繰り返して複数の Key/Secret を作っておくことをオススメします。
 
 
 
