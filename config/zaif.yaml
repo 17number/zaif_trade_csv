@@ -1,0 +1,77 @@
+currency_pairs:
+  # 全通貨ペア 対象
+  all:              0
+  # 主要通貨ペア
+  # BTC/JPY
+  btc_jpy:          1
+
+  # XEM/BTC
+  xem_btc:          0
+  # XEM/JPY
+  xem_jpy:          0
+
+  # MONA/BTC
+  mona_btc:         0
+  # MONA/JPY
+  mona_jpy:         0
+
+  # BCH/BTC
+  bch_btc:          0
+  # BCH/JPY
+  bch_jpy:          0
+
+  # ETH/BTC
+  eth_btc:          0
+  # ETH/JPY
+  eth_jpy:          0
+
+  # COMSA ペア
+  # MOSAIC.CMS/JPY
+  mosaic.cms_jpy:   0
+
+  # ERC20.CMS/JPY
+  erc20.cms_jpy:    0
+
+  # トークンペア
+  # ZAIF/BTC
+  zaif_btc:         0
+  # ZAIF/JPY
+  zaif_jpy:         0
+
+  # XCP/BTC
+  xcp_btc:          0
+  # XCP/JPY
+  xcp_jpy:          0
+
+  # BITCRYSTALS/BTC
+  bitcrystals_btc:  0
+  # BITCRYSTALS/JPY
+  bitcrystals_jpy:  0
+
+  # SJCX/BTC
+  sjcx_btc:         0
+  # SJCX/JPY
+  sjcx_jpy:         0
+
+  # FSCC/BTC
+  fscc_btc:         0
+  # FSCC/JPY
+  fscc_jpy:         0
+
+  # PEPECASH/BTC
+  pepecash_btc:     0
+  # PEPECASH/JPY
+  pepecash_jpy:     0
+
+  # NCXC/BTC
+  ncxc_btc:         0
+  # NCXC/JPY
+  ncxc_jpy:         0
+
+  # CICC/BTC
+  cicc_btc:         0
+  # CICC/JPY
+  cicc_jpy:         0
+
+  # JPYZ/JPY
+  jpyz_jpy:         0

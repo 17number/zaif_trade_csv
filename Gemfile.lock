@@ -1,0 +1,47 @@
+GIT
+  remote: https://github.com/17number/zaif-ruby.git
+  revision: 494aa90a2aa7c551a291c905f8e2cc560d24d84f
+  specs:
+    zaif (0.0.1)
+      websocket-client-simple (~> 0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (5.1.4)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (~> 0.7)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
+    concurrent-ruby (1.0.5)
+    event_emitter (0.2.6)
+    hashie (3.5.7)
+    i18n (0.9.1)
+      concurrent-ruby (~> 1.0)
+    little-plugger (1.1.4)
+    logging (2.2.2)
+      little-plugger (~> 1.1)
+      multi_json (~> 1.10)
+    minitest (5.10.3)
+    multi_json (1.12.2)
+    parallel (1.12.1)
+    thread_safe (0.3.6)
+    tzinfo (1.2.4)
+      thread_safe (~> 0.1)
+    websocket (1.2.5)
+    websocket-client-simple (0.3.0)
+      event_emitter
+      websocket
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  activesupport
+  hashie
+  logging
+  parallel
+  zaif!
+
+BUNDLED WITH
+   1.15.4

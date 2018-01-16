@@ -1,0 +1,8 @@
+api_keys:
+  - api_key_1
+  - api_key_2
+  - api_key_3
+api_secrets:
+  - api_secret_1
+  - api_secret_2
+  - api_secret_3

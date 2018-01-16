@@ -1,0 +1,22 @@
+# Logging
+logging:
+  # ログファイル パス
+  file: log/tr.log
+  # ローテーション
+  # daily or weekly or monthly or 数値(最大ファイル数)
+  # 数値の場合はサイズローテーション時、いくつファイルを残すか
+  rotate_age: daily
+  # ファイルサイズでローテーションする際のサイズ[Byte]
+  # 0 の場合はサイズローテーション無効(時刻ローテーション)
+  rotate_size: 0
+  # ログレベル
+  level:
+    stdout: :info
+    file: :debug
+
+# 対象年
+year: 2017
+
+# 計算対象 取引所
+exchanges:
+  zaif:      1
