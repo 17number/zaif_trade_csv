@@ -6,13 +6,13 @@ zaif の取引履歴CSVを取得するためのツールです。API を使っ�
 
 ## 注意事項
 
-* 本ツールの利用は自己責任でお願いします。確定申告で使ったら、数年後に追徴課税来た、とか言われても責任は負いかねます。
-* その内、zaif さんが公式にCSVファイルの提供を開始すると思います。不安な方はそちらを待たれた方が良いです。
-* API を使った不正出金が発生しているようなので、ツール利用後は API Key/Secret の削除や無効化を必ず行ってください。
+* 本ツールの利用は**自己責任**でお願いします。確定申告で使ったら、**数年後に追徴課税来た、とか言われても責任は負いかねます。** 
+  * その内、zaif さんが公式にCSVファイルの提供を開始すると思います。不安な方はそちらを待たれた方が良いです。
+* API を使った不正出金が発生しているようなので、**ツール利用後は API Key/Secret の削除や無効化を必ず**行ってください。
 * 「このツール使ったら資産とか情報とか抜かれるんじゃないの？」という方は、ソースコード眺めるなりして判断してください。ソースコード読めない(けど疑惑を感じる)という方は利用を見合わせてください。 
   * 他ツールからコードを流用、かつ突貫で作ったのでコードは汚いと思います。温かく見守ってあげてください。
-* 作成者の環境でしか動作確認できていません。環境によってはエラーが発生して、上手く動かない可能性もあります。
-  * エラーが発生した場合は、github上でissueなり作成するか、[@stray_engineer](https://twitter.com/stray_engineer)までご連絡ください。
+* 作成者の環境でしか動作確認できていません。**環境によってはエラーが発生して、上手く動かない可能性もあります。** 
+  * エラーが発生した場合は、**github上でissueなり作成するか、[@stray_engineer](https://twitter.com/stray_engineer)までご連絡ください。** 
 * 確認環境
   * macOS High Sierra v10.13.2
     * ruby v2.45.2p198
@@ -41,7 +41,20 @@ zaif の取引履歴CSVを取得するためのツールです。API を使っ�
 
 
 ## 使い方(初心者向け)
+
+ざっくりやることを先に書いておきます。
+
+1. Ruby, Bundler のインストール
+2. ファイル一式のダウンロード、ツールのインストール
+3. API Key の作成
+4. 設定ファイルの更新
+5. CSV 作成！！
+6. 後片付け(API Key の削除)
+
+大変そうに見えるかもしれませんが、手順を(ある程度)ちゃんと書いているので、そんなに難しくない(はず)です。
+
 ### Windows編
+
 #### Ruby をインストール
 
 [RubyInstaller](https://rubyinstaller.org/downloads/)から、最新版(2018/01/16 現在 v2.5.0-1)をダウンロードしてインストールする。
@@ -57,9 +70,9 @@ zaif の取引履歴CSVを取得するためのツールです。API を使っ�
 
 #### Bundler をインストール
 
-「Bundler って何？」と思いますよね？
+**「Bundler って何？」** と思いますよね？
 
-Rubyで使う便利ツールです。気にしたら負けです。目的は CSV を作ることなんです。
+Rubyで使う便利ツールです。気にしたら負けです。**目的は CSV を作ること**なんです。
 
 1. コマンドプロンプトを起動
 [Windows]キー と [r]キー を同時押しして、出てきたウィンドウに `cmd` って打ってください。
@@ -78,12 +91,12 @@ gem install bundler
 
 #### ファイル一式をダウンロード
 
-[17number/zaif\_trade\_csv: Zaifの取引履歴CSVをAPIで作成](https://github.com/17number/zaif_trade_csv) を開いて、
-右の方にある「Clone or download」という緑色のボタンを押してください。ポップアップして表示される「Download ZIP」をクリック。
+[17number/zaif\_trade\_csv](https://github.com/17number/zaif_trade_csv) を開いて、
+右の方にある **「Clone or download」という緑色のボタン** を押してください。ポップアップして表示される **「Download ZIP」をクリック**。
+
+ダウンロード完了後、適当な場所に展開してください。 
 
 ![Download ZIP](images/download_zip.png)
-
-ダウンロード完了後、適当に展開してください。
 
 
 
@@ -119,21 +132,25 @@ bundle install --path vendor¥bundle
 [Zaif の API Key のページ](https://zaif.jp/api_keys)に移動。リンクは怪しいから怖いって方は以下の手順で移動。
 
 ![API Link 1](images/api_link_1.png)
+
 ![API Link 2](images/api_link_2.png)
 
 二段階認証を設定している場合は入力。
 
 ![API 2FA](images/create_api_2fa.png)
 
-二段階認証パス後、現れる Create Key を入力して Create。名前は何でも良いです。必要な権限は Info のみ。(勝手に取引されたり、出金されたりする恐れはないから安心ですね！)
+二段階認証パス後に現れる **Create Key** を入力して Create。
+
+名前は何でも良いです。 **必要な権限は Info のみ**。(勝手に取引されたり、出金されたりする恐れはないから安心ですね！)
 
 ![API Create](images/create_api.png)
 
 作成後、表示される Key/Secret をこのあと設定ファイルにコピーします。
 
+取引履歴や通貨ペアが多い方は、同じ手順を繰り返して複数の Key/Secret を作っておくことをオススメします。
+
 ![API Key/Secret](images/copy_api_key_secret.png)
 
-取引履歴や通貨ペアが多い方は、同じ手順を繰り返して複数の Key/Secret を作っておくことをオススメします。
 
 
 
@@ -141,8 +158,8 @@ bundle install --path vendor¥bundle
 
 以下の2ファイルを変更します。
 
-- `keys¥zaif.yaml`
-- `config¥zaif.yaml`
+- `keys¥zaif.yaml` : **API Key/Secret** を設定
+- `config¥zaif.yaml` : **対象通貨ペア** を設定
 
 ![Config Files](images/config_files.png)
 
@@ -152,13 +169,16 @@ bundle install --path vendor¥bundle
 
 `keys¥zaif.yaml` をテキストエディタで開きます。
 
-前段で作成した Key/Secret をコピーして貼り付けます。
+前段で作成した **Key/Secret をコピーして貼り付けます**。
 
-![Set Key/Secret](images/set_api_key_secret.png)
+Key/Secret を１つだけ使う場合は `- api_key_2`, `- api_secret_2` などの **使わない部分を削除** してください。
 
-複数の Key/Secret を使う場合は、必要数分だけ行数を増やしてください。その際、必ず Key/Secret の順番が同じになるようにしてください。
+複数の Key/Secret を使う場合は、 **必要数分だけ行数を増やして** ください。その際、 **必ず Key/Secret の順番が同じ** になるようにしてください。
 
 ※1番目の Key、1番目の Secret がペア、2番目の Key、2番目の Secret がペア…という感じになっています。
+
+
+![Set Key/Secret](images/set_api_key_secret.png)
 
 
 ##### 通貨ペア 設定
@@ -167,9 +187,9 @@ bundle install --path vendor¥bundle
 
 集計したい通貨ペアを探して `0` から `1` に変更します。
 
-![Set currency pairs](images/set_currency_pairs.png)
+設定するのが面倒な方は `all` を `1` にすれば、全通貨ペアを対象に処理しますが、 **zaif API の反応が遅いので時間がかかります。** きちんと設定するのをオススメします。
 
-設定するのが面倒な方は `all` を `1` にすれば、全通貨ペアを対象に処理しますが、zaif API の反応が遅いのでちゃんと設定するのをオススメします。
+![Set currency pairs](images/set_currency_pairs.png)
 
 
 #### いよいよ実行
@@ -182,9 +202,9 @@ bundle exec ruby get_trade_csv.rb
 
 実行完了後、`results` フォルダに CSV ファイルが出力されます。通貨ペアごと、および全通貨まとめたものがファイル出力されます。
 
-![CSV Files](images/csv_path.png)
-
 念のため、[取引履歴ページ](https://zaif.jp/trade_log_btc_jpy/1)で内容に相違が無いか確認してください。
+
+![CSV Files](images/csv_path.png)
 
 
 #### 後片付け(API Key/Secret の 削除or無効化)
