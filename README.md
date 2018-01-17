@@ -78,8 +78,6 @@ zaif の取引履歴CSVを取得するためのツールです。API を使っ�
 
 念のため、[取引履歴ページ](https://zaif.jp/trade_log_btc_jpy/1)で内容に相違が無いか確認してください。
 
-![CSV Files](images/csv_path.png)
-
 
 ### 5. 後片付け(API Key の削除)
 
