@@ -6,20 +6,28 @@ def load_gems
   gem_files.concat(lib_files).each {|file| require file}
 end
 
+def get_base_dir
+  base_file = ENV['OCRA_EXECUTABLE'] || $0
+  File.expand_path(File.dirname(base_file))
+end
+
+# 実行ディレクトリ
+base_dir = get_base_dir
+
 # ライブラリ読込み
 load_gems
 
 # Config 設定
-conf = Config.new
+conf = Config.new(base_dir)
 
 # Logger 初期化
-TRLogging.init(conf.params.logging)
+TRLogging.init(conf.params.logging, "#{base_dir}/log/tr.log")
 
 # 確定申告 対象年
 AnalyzeExchange.set_year(conf.params.year)
 
 # 集計対象 取引所
-anl_zaif = AnalyzeZaif.new
+anl_zaif = AnalyzeZaif.new(base_dir)
 
 # 取引所別 集計
 anl_zaif.create_trade_csv

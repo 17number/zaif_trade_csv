@@ -1,6 +1,6 @@
 class ZaifClient
-  def initialize
-    conf_file =  File.expand_path("../../keys/zaif.yaml", __FILE__)
+  def initialize(base_dir)
+    conf_file =  "#{base_dir}/keys/zaif.yaml"
     conf = Hashie::Mash.load(conf_file)
 
     @clients = conf["api_keys"].map.with_index do |key, i|

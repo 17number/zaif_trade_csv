@@ -1,8 +1,8 @@
 class Config
   attr_accessor :params
 
-  def initialize
-    conf_file =  File.expand_path("../../config/config.yaml", __FILE__)
+  def initialize(base_dir)
+    conf_file =  "#{base_dir}/config/config.yaml"
     @params = Hashie::Mash.load(conf_file)
   end
 end

@@ -2,12 +2,13 @@ class AnalyzeZaif < AnalyzeExchange
   COUNTS = 1000
   SLEEP_SEC = 3.0
 
-  def initialize
-    @exchange  = "zaif"
-    super
-    @api_client = ZaifClient.new
+  def initialize(base_dir)
+    @base_dir = base_dir
+    @exchange = "zaif"
+    super()
+    @api_client = ZaifClient.new(@base_dir)
     @lock = Mutex.new
-    conf_file =  File.expand_path("../../config/#{@exchange}.yaml", __FILE__)
+    conf_file = "#{@base_dir}/config/#{@exchange}.yaml"
     conf = Hashie::Mash.load(conf_file)
     set_currency_pairs(conf)
     @start_timestamp = if @@year.present?
@@ -108,11 +109,11 @@ class AnalyzeZaif < AnalyzeExchange
 
   def open_out_files
     out_files = {}
-    out_files["all"] = File.open("results/all.csv", "w")
+    out_files["all"] = File.open("#{@base_dir}/results/all.csv", "w")
     write_header(out_files["all"])
     currency_pairs = @ex_data.group_by{|d| d[:market]}.keys
     currency_pairs.each do |pair|
-      out_files[pair] = File.open("results/#{pair}.csv", "w")
+      out_files[pair] = File.open("#{@base_dir}/results/#{pair}.csv", "w")
       write_header(out_files[pair])
     end
     out_files
