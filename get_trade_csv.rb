@@ -14,6 +14,9 @@ end
 # 実行ディレクトリ
 base_dir = get_base_dir
 
+# 証明書 設定
+ENV['SSL_CERT_FILE'] = "#{base_dir}/pem/cacert.pem"
+
 # ライブラリ読込み
 load_gems
 
