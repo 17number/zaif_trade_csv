@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/17number/zaif-ruby.git
-  revision: 494aa90a2aa7c551a291c905f8e2cc560d24d84f
+  revision: ac1065c572f12b2c9acb5d22ff3d309ae8ac38af
   specs:
     zaif (0.0.1)
       websocket-client-simple (~> 0)
@@ -22,8 +22,8 @@ GEM
     logging (2.2.2)
       little-plugger (~> 1.1)
       multi_json (~> 1.10)
-    minitest (5.10.3)
-    multi_json (1.12.2)
+    minitest (5.11.1)
+    multi_json (1.13.1)
     parallel (1.12.1)
     thread_safe (0.3.6)
     tzinfo (1.2.4)
@@ -44,4 +44,4 @@ DEPENDENCIES
   zaif!
 
 BUNDLED WITH
-   1.15.4
+   1.16.1
