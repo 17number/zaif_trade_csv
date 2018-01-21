@@ -110,21 +110,35 @@ class AnalyzeZaif < AnalyzeExchange
   def open_out_files
     out_files = {}
     out_files["all"] = File.open("#{@base_dir}/results/all.csv", "w")
-    write_header(out_files["all"])
+    write_header(out_files["all"], "all")
     currency_pairs = @ex_data.group_by{|d| d[:market]}.keys
     currency_pairs.each do |pair|
       out_files[pair] = File.open("#{@base_dir}/results/#{pair}.csv", "w")
-      write_header(out_files[pair])
+      write_header(out_files[pair], pair)
     end
     out_files
   end
 
-  def write_header(out_f)
-    out_f.puts "マーケット,取引種別,価格,数量,取引手数料,ボーナス円,日時,コメント"
+  def write_header(out_f, pair)
+    str  = "マーケット"
+    str += ",取引種別"
+    str += ",価格"
+    str += ",数量"
+    str += ",取引手数料"
+    str += ",ボーナス円" if pair.include?("jpy")
+    str += ",日時"
+    str += ",コメント"
+    out_f.puts str
   end
 
   def write_data(out_f, d)
-    out_f.puts "#{d[:market]},#{d[:action]},#{format("%.8f", d[:rate])},#{format("%.8f", d[:amount_a])},#{format("%.8f", d[:fee])},#{format("%.8f", d[:bonus]) if d[:bonus].present?},#{d[:datetime]},#{d[:comment]}"
+    str  = "#{d[:market]}"
+    str += ",#{d[:action]}"
+    str += ",#{format("%.8f", d[:rate])}"
+    str += ",#{format("%.8f", d[:amount_a])}"
+    str += ",#{format("%.8f", d[:fee])}"
+    str += ",#{format("%.8f", d[:bonus]) if d[:bonus].present?}" if d[:market].include?("jpy")
+    str += ",#{d[:datetime]},#{d[:comment]}"
+    out_f.puts str
   end
 end
-
