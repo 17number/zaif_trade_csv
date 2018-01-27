@@ -25,6 +25,7 @@ GEM
     minitest (5.11.1)
     multi_json (1.13.1)
     parallel (1.12.1)
+    smarter_csv (1.2.2)
     thread_safe (0.3.6)
     tzinfo (1.2.4)
       thread_safe (~> 0.1)
@@ -41,6 +42,7 @@ DEPENDENCIES
   hashie
   logging
   parallel
+  smarter_csv
   zaif!
 
 BUNDLED WITH
