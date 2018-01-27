@@ -34,7 +34,8 @@ class AnalyzeZaif < AnalyzeExchange
       market = d[:market]
       out_file = out_files[market]
       write_data(out_file, d)
-      write_data(out_files["all"], d)
+      write_data(out_files["all_btc"], d) if market.include?("_btc")
+      write_data(out_files["all_jpy"], d) unless market.include?("_btc")
     end
 
     # ファイルクローズ
@@ -112,13 +113,19 @@ class AnalyzeZaif < AnalyzeExchange
 
   def open_out_files
     out_files = {}
-    out_files["all"] = File.open("#{@base_dir}/results/all.csv", "w")
-    write_header(out_files["all"], "all")
+
+    extra_file_names = ["all_btc", "all_jpy"]
+    extra_file_names.each do |name|
+      out_files[name] = File.open("#{@base_dir}/results/#{name}.csv", "w")
+      write_header(out_files[name], name)
+    end
+
     currency_pairs = @ex_data.group_by{|d| d[:market]}.keys
     currency_pairs.each do |pair|
       out_files[pair] = File.open("#{@base_dir}/results/#{pair}.csv", "w")
       write_header(out_files[pair], pair)
     end
+
     out_files
   end
 
@@ -128,7 +135,7 @@ class AnalyzeZaif < AnalyzeExchange
     str += ",価格"
     str += ",数量"
     str += ",取引手数料"
-    str += ",ボーナス円" if pair.include?("jpy")
+    str += ",ボーナス円" unless pair.include?("_btc")
     str += ",日時"
     str += ",コメント"
     out_f.puts str
@@ -140,8 +147,9 @@ class AnalyzeZaif < AnalyzeExchange
     str += ",#{format("%.8f", d[:rate])}"
     str += ",#{format("%.8f", d[:amount_a])}"
     str += ",#{format("%.8f", d[:fee])}"
-    str += ",#{format("%.8f", d[:bonus]) if d[:bonus].present?}" if d[:market].include?("jpy")
-    str += ",#{d[:datetime]},#{d[:comment]}"
+    str += ",#{format("%.8f", d[:bonus]) if d[:bonus].present?}" unless d[:market].include?("_btc")
+    str += ",#{d[:datetime]}"
+    str += ",#{d[:comment]}"
     out_f.puts str
   end
 end
