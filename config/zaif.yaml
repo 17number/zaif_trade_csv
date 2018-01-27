@@ -1,3 +1,9 @@
+# 取引種別
+#   0 : 買い/売り で出力(旧フォーマット)
+#   1 : bid/ask で出力(新フォーマット)
+action_english: 0
+
+# 通貨ペア
 currency_pairs:
   # 全通貨ペア 対象
   all:              0

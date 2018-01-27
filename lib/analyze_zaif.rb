@@ -16,6 +16,7 @@ class AnalyzeZaif < AnalyzeExchange
     else
       0
     end
+    @action_english = conf.action_english
   end
 
   def create_trade_csv
@@ -74,21 +75,23 @@ class AnalyzeZaif < AnalyzeExchange
     data[:id] = id.to_i
     data[:market] = api_data["currency_pair"]
     data[:datetime] = get_datetime(api_data[key_datetime])
+    if @action_english == 0
+      action = action == "bid" ? "買い" : "売り"
+    end
     data[:action] = action
     data
   end
 
   def extract_trade_data(trade, id)
-    if trade["your_action"] == "bid"
-      extract_buy_sell_data(trade, id, "買い")
-    elsif trade["your_action"] == "ask"
-      extract_buy_sell_data(trade, id, "売り")
-    elsif trade["your_action"] == "both"
+    action = trade["your_action"]
+    if action == "both"
       TRLogging.log(@logger, :info, "Detected self trades!! #{id} : #{trade}")
-      extract_buy_sell_data(trade, id, "買い")
+      extract_buy_sell_data(trade, id, "bid")
       trade[:fee] = 0.0
       trade[:fee_amount] = 0.0
-      extract_buy_sell_data(trade, id, "売り")
+      extract_buy_sell_data(trade, id, "ask")
+    else
+      extract_buy_sell_data(trade, id, action)
     end
   end
 
