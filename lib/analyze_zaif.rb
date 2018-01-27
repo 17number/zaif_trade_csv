@@ -40,6 +40,9 @@ class AnalyzeZaif < AnalyzeExchange
 
     # ファイルクローズ
     out_files.each{|pair, file| file.close}
+
+    # all.csv 作成
+    merge_all_data
   end
 
   private
@@ -141,15 +144,45 @@ class AnalyzeZaif < AnalyzeExchange
     out_f.puts str
   end
 
-  def write_data(out_f, d)
+  def write_data(out_f, d, is_merge = false)
     str  = "#{d[:market]}"
     str += ",#{d[:action]}"
     str += ",#{format("%.8f", d[:rate])}"
     str += ",#{format("%.8f", d[:amount_a])}"
     str += ",#{format("%.8f", d[:fee])}"
-    str += ",#{format("%.8f", d[:bonus]) if d[:bonus].present?}" unless d[:market].include?("_btc")
+    if is_merge
+      str += ",#{format("%.8f", d[:bonus]) if d[:bonus].present?}"
+    else
+      str += ",#{format("%.8f", d[:bonus]) if d[:bonus].present?}" unless d[:market].include?("_btc")
+    end
     str += ",#{d[:datetime]}"
     str += ",#{d[:comment]}"
     out_f.puts str
+  end
+
+  def merge_all_data
+    File.open("results/all.csv", "w") do |f|
+      all_data = []
+      key_map = {
+        :マーケット => :market,
+        :取引種別 => :action,
+        :価格 => :rate,
+        :数量 => :amount_a,
+        :取引手数料 => :fee,
+        :ボーナス円 => :bonus,
+        :日時 => :datetime,
+        :コメント => :comment,
+      }
+      all_btc_data = SmarterCSV.process("results/all_btc.csv", {key_mapping: key_map, remove_empty_values: false, remove_zero_values: false})
+      all_jpy_data = SmarterCSV.process("results/all_jpy.csv", {key_mapping: key_map, remove_empty_values: false, remove_zero_values: false})
+      all_data << all_btc_data
+      all_data << all_jpy_data
+      all_data.flatten!
+      all_data.sort_by!{|d| d[:datetime]}
+      write_header(f, "all")
+      all_data.each do |d|
+        write_data(f, d, true)
+      end
+    end
   end
 end
