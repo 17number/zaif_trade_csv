@@ -182,7 +182,7 @@ class AnalyzeZaif < AnalyzeExchange
       all_data << all_btc_data
       all_data << all_jpy_data
       all_data.flatten!
-      all_data.sort_by!{|d| d[:datetime]}
+      all_data.sort_by!{|d| d[:日時]}
       write_header(f, "all")
       all_data.each do |d|
         write_data(f, d, true)
