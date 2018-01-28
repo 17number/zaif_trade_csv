@@ -39,7 +39,10 @@ class AnalyzeZaif < AnalyzeExchange
     end
 
     # ファイルクローズ
-    out_files.each{|pair, file| file.close}
+    out_files.each do |pair, file|
+      TRLogging.log(@logger, :info, "#{file.path} created.")
+      file.close
+    end
 
     # all.csv 作成
     merge_all_data
@@ -59,7 +62,7 @@ class AnalyzeZaif < AnalyzeExchange
     Parallel.map(@currency_pairs, in_threads: Parallel.processor_count) do |currency_pair|
       from_id = 0
       trades = @api_client.call_api(:get_my_trades, {currency_pair: currency_pair, order: "ASC", since: @start_timestamp})
-      TRLogging.log(@logger, :info, "currency_pair: #{currency_pair}'s trades(#{trades.size}) will be processed.")
+      TRLogging.log(@logger, :info, "#{currency_pair}'s trades(#{trades.size}) will be processed.")
       while trades.present?
         trades.each do |id, trade|
           from_id = id.to_i + 1
@@ -69,8 +72,9 @@ class AnalyzeZaif < AnalyzeExchange
         sleep SLEEP_SEC
         break if trades.size < COUNTS / 2
         trades = @api_client.call_api(:get_my_trades, {currency_pair: currency_pair, order: "ASC", from_id: from_id})
-        TRLogging.log(@logger, :info, "currency_pair: #{currency_pair}'s trades(#{trades.size}) will be processed.")
+        TRLogging.log(@logger, :info, "#{currency_pair}'s trades(#{trades.size}) will be processed.")
       end
+      TRLogging.log(@logger, :info, "Finish analyzing of #{currency_pair} trades.")
     end
   end
 
@@ -161,7 +165,7 @@ class AnalyzeZaif < AnalyzeExchange
   end
 
   def merge_all_data
-    File.open("results/all.csv", "w") do |f|
+    File.open("#{@base_dir}/results/all.csv", "w") do |f|
       all_data = []
       key_map = {
         :マーケット => :market,
@@ -173,8 +177,8 @@ class AnalyzeZaif < AnalyzeExchange
         :日時 => :datetime,
         :コメント => :comment,
       }
-      all_btc_data = SmarterCSV.process("results/all_btc.csv", {key_mapping: key_map, remove_empty_values: false, remove_zero_values: false})
-      all_jpy_data = SmarterCSV.process("results/all_jpy.csv", {key_mapping: key_map, remove_empty_values: false, remove_zero_values: false})
+      all_btc_data = SmarterCSV.process("#{@base_dir}/results/all_btc.csv", {key_mapping: key_map, remove_empty_values: false, remove_zero_values: false})
+      all_jpy_data = SmarterCSV.process("#{@base_dir}/results/all_jpy.csv", {key_mapping: key_map, remove_empty_values: false, remove_zero_values: false})
       all_data << all_btc_data
       all_data << all_jpy_data
       all_data.flatten!
@@ -183,6 +187,7 @@ class AnalyzeZaif < AnalyzeExchange
       all_data.each do |d|
         write_data(f, d, true)
       end
+      TRLogging.log(@logger, :info, "#{f.path} created.")
     end
   end
 end
